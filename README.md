@@ -1,24 +1,60 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# furimaのER図
 
-Things you may want to cover:
+## users テーブル
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| nickname           | string | null: false |
+| email              | string | null: false |
+| password           | string | null: false |
+| last_name          | string | null: false |
+| first_name         | string | null: false |
+| last_name_kana     | string | null: false |
+| first_name_kana    | string | null: false |
 
-* Ruby version
+### Association
+- has_many : items
+- has_many : orders
 
-* System dependencies
+## items テーブル
+| Column             | Type      | Options                        |
+| ------------------ | --------- | ------------------------------ |
+| image              |           | null: false                    |
+| product            | string    | null: false                    |
+| category           | string    | null: false                    |
+| status             | string    | null: false                    |
+| price              | integer   | null: false                    |
+| delivery_change    | integer   | null: false                    |
+| shipping_area      | string    | null: false                    |
+| delivery_time      | integer   | null: false                    |
+| user               | reference | null: false, foreign_key: true |
 
-* Configuration
+### Association
+- belongs_to : user
+- has_one : order 
 
-* Database creation
+## orders テーブル
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
+| buyer              | string     | null: false                    |
+| purchased          | string     | null: false                    |
+| item               | reference  | null: false, foreign_key: true |
 
-* Database initialization
+### Association
+- belongs_to : user
+- belongs_to : item
+- has_one :destination
 
-* How to run the test suite
+# destinations テーブル
+| Column             | Type       | Options     |
+| ------------------ | ---------- | ----------- |
+| zip                | varchar(7) | null: false |
+| pref               |            | null: false |
+| city               | text       | null: false |
+| block              | text       | null: false |
+| building           | text       |             |
+| phone_number       | varchar(11)| null: false |
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Association
+- belongs_to : order
