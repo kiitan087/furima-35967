@@ -3,15 +3,16 @@
 # furimaのER図
 
 ## users テーブル
-| Column             | Type   | Options     |
-| ------------------ | ------ | ----------- |
-| nickname           | string | null: false |
-| email              | string | null: false |
-| password           | string | null: false |
-| last_name          | string | null: false |
-| first_name         | string | null: false |
-| last_name_kana     | string | null: false |
-| first_name_kana    | string | null: false |
+| Column             | Type   | Options                   |
+| ------------------ | ------ | ------------------------- |
+| nickname           | string | null: false               |
+| email              | string | null: false, unique: true |
+| encrypted_password | string | null: false               |
+| last_name          | string | null: false               |
+| first_name         | string | null: false               |
+| last_name_kana     | string | null: false               |
+| first_name_kana    | string | null: false               |
+| birthday           | date   | null: false               |
 
 ### Association
 - has_many : items
@@ -20,14 +21,13 @@
 ## items テーブル
 | Column             | Type      | Options                        |
 | ------------------ | --------- | ------------------------------ |
-| image              |           | null: false                    |
 | product            | string    | null: false                    |
-| category           | string    | null: false                    |
-| status             | string    | null: false                    |
+| category_id        | integer   | null: false                    |
+| status_id          | integer   | null: false                    |
+| delivery_change_id | integer   | null: false                    |
+| shipping_area_id   | integer   | null: false                    |
+| delivery_time_id   | integer   | null: false                    |
 | price              | integer   | null: false                    |
-| delivery_change    | integer   | null: false                    |
-| shipping_area      | string    | null: false                    |
-| delivery_time      | integer   | null: false                    |
 | user               | reference | null: false, foreign_key: true |
 
 ### Association
@@ -37,9 +37,8 @@
 ## orders テーブル
 | Column             | Type       | Options                        |
 | ------------------ | ---------- | ------------------------------ |
-| buyer              | string     | null: false                    |
-| purchased          | string     | null: false                    |
-| item               | reference  | null: false, foreign_key: true |
+| user               | references | null: false, foreign_key: true |
+| item               | references | null: false, foreign_key: true |
 
 ### Association
 - belongs_to : user
@@ -47,14 +46,15 @@
 - has_one :destination
 
 # destinations テーブル
-| Column             | Type       | Options     |
-| ------------------ | ---------- | ----------- |
-| zip                | varchar(7) | null: false |
-| pref               |            | null: false |
-| city               | text       | null: false |
-| block              | text       | null: false |
-| building           | text       |             |
-| phone_number       | varchar(11)| null: false |
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
+| zip                | string     | null: false                    |
+| shipping_area_id   | integer    | null: false                    |
+| city               | string     | null: false                    |
+| block              | string     | null: false                    |
+| building           | string     |                                |
+| phone_number       | string     | null: false                    |
+| order              | references | null: false, foreign_key: true |
 
 ### Association
 - belongs_to : order
