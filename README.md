@@ -22,6 +22,7 @@
 | Column             | Type      | Options                        |
 | ------------------ | --------- | ------------------------------ |
 | product            | string    | null: false                    |
+| product_description| text      | null: false                    |
 | category_id        | integer   | null: false                    |
 | status_id          | integer   | null: false                    |
 | delivery_change_id | integer   | null: false                    |
