@@ -15,7 +15,7 @@ class User < ApplicationRecord
     validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "is invalid. Input '@' character."}
   end
 
-  with_options format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "is invalid. Input full-width characters."} do
+  with_options format: { with: /\A[ぁ-んァ-ン一-龥々ー]+\z/, message: "is invalid. Input full-width characters."} do
     validates :last_name
     validates :first_name
   end
