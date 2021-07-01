@@ -40,7 +40,7 @@ RSpec.describe Item, type: :model do
       it 'category_idが1{--}だと登録できない' do
         @item.category_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include "Category must be other than 1"
+        expect(@item.errors.full_messages).to include 'Category must be other than 1'
       end
       it 'status_idが空だと登録できない' do
         @item.status_id = ''
@@ -50,7 +50,7 @@ RSpec.describe Item, type: :model do
       it 'status_idが1{--}だと登録できない' do
         @item.status_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include "Status must be other than 1"
+        expect(@item.errors.full_messages).to include 'Status must be other than 1'
       end
       it 'delivery_change_idが空だと登録できない' do
         @item.delivery_change_id = ''
@@ -60,7 +60,7 @@ RSpec.describe Item, type: :model do
       it 'delivery_change_idが1{--}だと登録できない' do
         @item.delivery_change_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include "Delivery change must be other than 1"
+        expect(@item.errors.full_messages).to include 'Delivery change must be other than 1'
       end
       it 'shipping_area_idが空だと登録できない' do
         @item.shipping_area_id = ''
@@ -70,7 +70,7 @@ RSpec.describe Item, type: :model do
       it 'shipping_area_idが1{--}だと登録できない' do
         @item.shipping_area_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include "Shipping area must be other than 1"
+        expect(@item.errors.full_messages).to include 'Shipping area must be other than 1'
       end
       it 'delivery_time_idが空だと登録できない' do
         @item.delivery_time_id = ''
@@ -80,7 +80,7 @@ RSpec.describe Item, type: :model do
       it 'delivery_time_idが1{--}だと登録できない' do
         @item.delivery_time_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include "Delivery time must be other than 1"
+        expect(@item.errors.full_messages).to include 'Delivery time must be other than 1'
       end
       it 'priceが空だと登録できない' do
         @item.price = ''
@@ -93,7 +93,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include 'Price must be greater than or equal to 300'
       end
       it 'priceが9999999円より上だと登録できない' do
-        @item.price = 10000000
+        @item.price = 10_000_000
         @item.valid?
         expect(@item.errors.full_messages).to include 'Price must be less than or equal to 9999999'
       end
@@ -117,7 +117,6 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include 'User must exist'
       end
-
     end
   end
 end
