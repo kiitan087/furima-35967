@@ -46,7 +46,7 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
-  def user_chech
+  def user_check
     if @item.user == current_user
       render :edit
     else
