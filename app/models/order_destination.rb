@@ -4,12 +4,15 @@ class OrderDestination
 
   with_options presence: true do
     validates :zip, format: {with: /\A[0-9]{3}-[0-9]{4}\z/, message: "is invalid. Include hyphen(-)"}
+    validates :shipping_area_id
     validates :city
     validates :block
     validates :token
+    validates :phone_number
   end
+
   validates :shipping_area_id, numericality: {other_than: 1}
-  validates :phone_number, numericality: {with: /\A\d{10,11}\z/, message: "is invalid. Input half-width numeric characters(10 or 11 digits)."}
+  validates :phone_number, format: {with: /\A\d{10,11}\z/, message: "is invalid. Input half-width numeric characters(10 or 11 digits)."}
 
   def save
     order = Order.create(user_id: user_id, item_id: item_id)

@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_user!
   before_action :move_to_index
   before_action :user_check, only: [:index,:create]
   before_action :purchased_check, only: [:index,:create]
@@ -26,7 +26,7 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order_destination).permit(:price, :zip, :shipping_area_id, :city, :block, :building,
+    params.require(:order_destination).permit(:zip, :shipping_area_id, :city, :block, :building,
                                               :phone_number).merge(item_id: params[:item_id], user_id: current_user.id, token: params[:token])
   end
 
