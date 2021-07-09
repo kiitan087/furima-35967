@@ -8,6 +8,7 @@ class Item < ApplicationRecord
   belongs_to :delivery_time
   belongs_to :user
   has_one_attached :image
+  has_one :order
 
   with_options presence: true do
     validates :image
@@ -29,5 +30,5 @@ class Item < ApplicationRecord
     validates :delivery_time_id
   end
 
-  validates :price, numericality: { with: /\A[0-9]+\z/, message: 'is invalid. Input half-width numeric characters.' }
+  validates :price, format: { with: /\A[0-9]+\z/, message: 'is invalid. Input half-width numeric characters.' }
 end
