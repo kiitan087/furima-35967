@@ -3,13 +3,17 @@ require 'rails_helper'
 RSpec.describe OrderDestination, type: :model do
   describe '商品購入機能' do
     before do
-      @order_destination = FactoryBot.build(:order_destination)
+      @user = FactoryBot.create(:user)
+      @item = FactoryBot.create(:item)
+      @order_destination = FactoryBot.build(:order_destination, user_id: @user.id, item_id: @item.id)
+      sleep 0.1
     end
 
     context '内容に問題ない場合' do
       it 'すべての値が正しく入力されていれば保存できること' do
         expect(@order_destination).to be_valid
       end
+
       it 'buildingは空でも保存できること' do
         @order_destination.building = ''
         expect(@order_destination).to be_valid
@@ -26,6 +30,11 @@ RSpec.describe OrderDestination, type: :model do
         @order_destination.zip = ''
         @order_destination.valid?
         expect(@order_destination.errors.full_messages).to include "Zip can't be blank"
+      end
+      it 'zipに(-)が含まれていないと保存できないこと' do
+        @order_destination.zip = '1234567'
+        @order_destination.valid?
+        expect(@order_destination.errors.full_messages).to include 'Zip is invalid. Include hyphen(-)'
       end
       it 'shipping_area_idが空だと登録できない' do
         @order_destination.shipping_area_id = ''
@@ -55,18 +64,28 @@ RSpec.describe OrderDestination, type: :model do
       it 'phone_numberが半角数字以外だと保存できないこと' do
         @order_destination.phone_number = '数かずカズnumber'
         @order_destination.valid?
-        expect(@order_destination.errors.full_messages).to include "Phone number is invalid. Input half-width numeric characters(10 or 11 digits)."
+        expect(@order_destination.errors.full_messages).to include 'Phone number is invalid. Input half-width numeric characters(10 or 11 digits).'
       end
       it 'phone_numberが9桁以下だと保存できないこと' do
-        @order_destination.phone_number = "123456789"
+        @order_destination.phone_number = '123456789'
         @order_destination.valid?
-        expect(@order_destination.errors.full_messages).to include "Phone number is invalid. Input half-width numeric characters(10 or 11 digits)."
+        expect(@order_destination.errors.full_messages).to include 'Phone number is invalid. Input half-width numeric characters(10 or 11 digits).'
       end
 
-      it 'phone_numberが12桁以下だと保存できないこと' do
-        @order_destination.phone_number = "123456789123"
+      it 'phone_numberが12桁以上だと保存できないこと' do
+        @order_destination.phone_number = '123456789123'
         @order_destination.valid?
-        expect(@order_destination.errors.full_messages).to include "Phone number is invalid. Input half-width numeric characters(10 or 11 digits)."
+        expect(@order_destination.errors.full_messages).to include 'Phone number is invalid. Input half-width numeric characters(10 or 11 digits).'
+      end
+      it 'ユーザーが紐づいていないと登録できない' do
+        @order_destination.user_id = nil
+        @order_destination.valid?
+        expect(@order_destination.errors.full_messages).to include "User can't be blank"
+      end
+      it '商品情報が紐づいていないと登録できない' do
+        @order_destination.item_id = nil
+        @order_destination.valid?
+        expect(@order_destination.errors.full_messages).to include "Item can't be blank"
       end
     end
   end
